@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="d-main">
+    <canvas id="flowCanvas" height="1200" width="1200" 
+        style="background-color: #46465a; border: 1px solid black; z-index: 1;"
+    />
+
+    <script>
+        var d = document.getElementById("d-main");
+
+        var img = new Image();
+        img.onload = texturizeCanvas;
+        img.src = "assets/dots_12x12.png";
+
+        function texturizeCanvas() {
+            var c = document.getElementById("flowCanvas");
+            var context = c.getContext("2d");
+
+            context.fillStyle = context.createPattern(img, 'repeat');
+            context.rect(0, 0, flowCanvas.width, flowCanvas.height);
+            context.globalAlpha = 0.5;
+            context.fill();
+        }
+    </script>
+</div>
