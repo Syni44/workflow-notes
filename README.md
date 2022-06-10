@@ -1,5 +1,5 @@
 ---
-permalink: Pages/index.cshtml
+permalink: Pages/Index.cshtml
 ---
 
 # workflow-notes
