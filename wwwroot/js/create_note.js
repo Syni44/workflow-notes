@@ -13,7 +13,7 @@ canvas.addEventListener("contextmenu", function (evt) {
 function createCanvas(evt) {
     var pos = getMousePos(canvas, evt);
     var note = {
-        x: pos.x, y: pos.y, width: 316, height: 218, lineHeight: 22,
+        x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: 316, height: 218, lineHeight: 22,
         xWidth: 30, xHeight: 30, xMargins: 6,
         rWidth: 28, rHeight: 28, rMargins: 4,
         shadowRoomX: 16, shadowRoomY: 16, shadowOffsetX: 9, shadowOffsetY: 7
@@ -36,7 +36,10 @@ function createCanvas(evt) {
     var xCtx = xPattern.getContext("2d");
     xPattern.width = note.xWidth;
     xPattern.height = note.xHeight;
-    xCtx.fillStyle = "#eee";
+    var grd = xCtx.createLinearGradient(0, 0, 0, xPattern.height);
+    grd.addColorStop(0.1, "#fffd82");
+    grd.addColorStop(0.9, "#eee");
+    xCtx.fillStyle = grd;
     xCtx.fillRect(0, 0, xPattern.width, xPattern.height);
     xCtx.beginPath();
     xCtx.lineWidth = 2;
@@ -93,8 +96,8 @@ function createCanvas(evt) {
     // fill with tertiary pattern
     var elRPattern = elCtx.drawImage(rPattern, el.width - note.rWidth - note.shadowRoomX, el.height - note.rHeight - note.shadowRoomY);
     // reposition canvas to mouse location
-    el.style.left = Math.floor(pos.x) + "px";
-    el.style.top = Math.floor(pos.y) + "px";
+    el.style.left = note.x;
+    el.style.top = note.y;
     el.setAttribute("note", JSON.stringify(note));
     canvas.parentNode.insertBefore(el, canvas);
     return { note: note, el: el };
