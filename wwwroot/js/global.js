@@ -5,4 +5,7 @@ function getMousePos(canvas, evt) {
         y: evt.clientY - rect.top
     };
 }
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
 //# sourceMappingURL=global.js.map

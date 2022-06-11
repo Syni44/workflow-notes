@@ -5,3 +5,7 @@
         y: evt.clientY - rect.top
     };
 }
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}

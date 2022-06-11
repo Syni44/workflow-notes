@@ -23,6 +23,8 @@ var divCallback = function (mutationList, observer) {
                     };
                     dragging = true;
                     dragPoint = { x: canvasPos.x, y: canvasPos.y };
+                    var allChildNodes = document.querySelectorAll('[id^=note]');
+                    insertAfter(el, allChildNodes[allChildNodes.length - 1]);
                 }
             });
             // click and drag: mouse moving
