@@ -69,8 +69,12 @@ function createCanvas(evt) {
     var el = document.createElement("canvas");
     var elCtx = el.getContext("2d");
     var compositeOperation = elCtx.globalCompositeOperation;
+    var noteNum = parentDiv.childElementCount;
+    while (document.querySelectorAll('[id^=note' + noteNum + ']').length > 0) {
+        noteNum -= 1;
+    }
     el.style.zIndex = "2";
-    el.id = "note" + parentDiv.childElementCount.toString();
+    el.id = "note" + noteNum.toString();
     el.width = note.width + note.shadowRoomX;
     el.height = note.height + note.shadowRoomY;
     // shadows

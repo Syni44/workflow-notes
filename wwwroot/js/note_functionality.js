@@ -8,6 +8,7 @@ var divCallback = function (mutationList, observer) {
     mutationList[0].target.addEventListener("mouseup", function () { return dragging = false; });
     // iterate through all notes and assign listeners as necessary
     document.querySelectorAll('[id^=note]').forEach(function (el) {
+        // don't attach listeners if they already exist
         if (el.getAttribute("listenersAttached") == 'false') {
             note = JSON.parse(el.getAttribute("note"));
             if (note != null) {
@@ -15,6 +16,8 @@ var divCallback = function (mutationList, observer) {
                 el.addEventListener("mousedown", function (evt) {
                     var allChildNodes = document.querySelectorAll('[id^=note]');
                     insertAfter(el, allChildNodes[allChildNodes.length - 1]);
+                    // left click on note functionality
+                    // drag and drop, close note, resize note
                     if (evt.button === 0) {
                         var pos = getMousePos(el, evt);
                         // handling close note via clicking on X region
@@ -30,16 +33,25 @@ var divCallback = function (mutationList, observer) {
                         dragging = true;
                         dragPoint = { x: canvasPos.x, y: canvasPos.y };
                     }
+                    // right click on note functionality
+                    // open contextmenu
+                    else if (evt.button === 2) {
+                        openMenu(el, evt);
+                    }
                 });
                 // click and drag: mouse moving
                 el.addEventListener("mousemove", handleDragging);
+                // prevent default contextmenu
+                el.addEventListener("contextmenu", function (evt) { return evt.preventDefault(); });
                 // watch for attribute changes within each canvas -- specifically,
                 // the note.x and note.y coordinates will be changing when moved
                 var noteObserver = new MutationObserver(noteCallback);
                 noteObserver.observe(el, noteObservations);
             }
             el.addEventListener("mouseenter", function (evt) {
-                console.log(el.id);
+            }, false);
+            el.addEventListener("mouseover", function (evt) {
+                checkCursor(el, evt);
             }, false);
             // tag notes to prevent future listener attachment
             el.setAttribute("listenersAttached", 'true');
@@ -55,6 +67,9 @@ function handleDragging(evt) {
         note.y = Math.floor(parsedY - (dragPoint.y - pos.y)) + "px";
         dragPoint = { x: pos.x, y: pos.y };
         this.setAttribute("note", JSON.stringify(note));
+    }
+    else {
+        checkCursor(this, evt);
     }
 }
 var divObserver = new MutationObserver(divCallback);
