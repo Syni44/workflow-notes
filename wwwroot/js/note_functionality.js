@@ -6,48 +6,46 @@ var dragging = false;
 var divCallback = function (mutationList, observer) {
     // click and drag: mouse up
     mutationList[0].target.addEventListener("mouseup", function () { return dragging = false; });
-    // todo: i believe this portion is causing a lot of unnecessary duplication
-    // check console logs
+    // iterate through all notes and assign listeners as necessary
     document.querySelectorAll('[id^=note]').forEach(function (el) {
-        note = JSON.parse(el.getAttribute("note"));
-        if (note != null) {
-            // watch for clicks on each note canvas
-            el.addEventListener("click", handleNoteClicked);
-            // click and drag: mouse down
-            el.addEventListener("mousedown", function (evt) {
-                if (evt.button === 0) {
-                    var pos = getMousePos(el, evt);
-                    var canvasPos = {
-                        x: parseInt(note.x, 10) + pos.x,
-                        y: parseInt(note.y, 10) + pos.y
-                    };
-                    dragging = true;
-                    dragPoint = { x: canvasPos.x, y: canvasPos.y };
+        if (el.getAttribute("listenersAttached") == 'false') {
+            note = JSON.parse(el.getAttribute("note"));
+            if (note != null) {
+                // click and drag: mouse down
+                el.addEventListener("mousedown", function (evt) {
                     var allChildNodes = document.querySelectorAll('[id^=note]');
                     insertAfter(el, allChildNodes[allChildNodes.length - 1]);
-                }
-            });
-            // click and drag: mouse moving
-            el.addEventListener("mousemove", handleDragging);
-            // watch for attribute changes within each canvas -- specifically,
-            // the note.x and note.y coordinates will be changing when moved
-            var noteObserver = new MutationObserver(noteCallback);
-            noteObserver.observe(el, noteObservations);
+                    if (evt.button === 0) {
+                        var pos = getMousePos(el, evt);
+                        // handling close note via clicking on X region
+                        if (pos.x > note.width - note.xWidth
+                            && pos.x < note.width
+                            && pos.y < note.xHeight) {
+                            el.remove();
+                        }
+                        var canvasPos = {
+                            x: parseInt(note.x, 10) + pos.x,
+                            y: parseInt(note.y, 10) + pos.y
+                        };
+                        dragging = true;
+                        dragPoint = { x: canvasPos.x, y: canvasPos.y };
+                    }
+                });
+                // click and drag: mouse moving
+                el.addEventListener("mousemove", handleDragging);
+                // watch for attribute changes within each canvas -- specifically,
+                // the note.x and note.y coordinates will be changing when moved
+                var noteObserver = new MutationObserver(noteCallback);
+                noteObserver.observe(el, noteObservations);
+            }
+            el.addEventListener("mouseenter", function (evt) {
+                console.log(el.id);
+            }, false);
+            // tag notes to prevent future listener attachment
+            el.setAttribute("listenersAttached", 'true');
         }
-        el.addEventListener("mouseenter", function (evt) {
-            console.log(el.id);
-        }, false);
     });
 };
-function handleNoteClicked(evt) {
-    var pos = getMousePos(this, evt);
-    // handling close note via clicking on X region
-    if (pos.x > note.width - note.xWidth
-        && pos.x < note.width
-        && pos.y < note.xHeight) {
-        this.remove();
-    }
-}
 function handleDragging(evt) {
     if (dragging) {
         var pos = getMousePos(canvas, evt);

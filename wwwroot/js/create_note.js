@@ -99,6 +99,7 @@ function createCanvas(evt) {
     el.style.left = note.x;
     el.style.top = note.y;
     el.setAttribute("note", JSON.stringify(note));
+    el.setAttribute("listenersAttached", 'false');
     canvas.parentNode.insertBefore(el, canvas);
     return { note: note, el: el };
 }
