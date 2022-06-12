@@ -74,6 +74,7 @@ function createCanvas(evt) {
         noteNum -= 1;
     }
     el.style.zIndex = "2";
+    el.style.cursor = "auto";
     el.id = "note" + noteNum.toString();
     el.width = note.width + note.shadowRoomX;
     el.height = note.height + note.shadowRoomY;

@@ -18,7 +18,7 @@ var divCallback = function (mutationList, observer) {
                     insertAfter(el, allChildNodes[allChildNodes.length - 1]);
                     // left click on note functionality
                     // drag and drop, close note, resize note
-                    if (evt.button === 0) {
+                    if (evt.button === 0 && evt.detail == 1 && el.style.cursor == "auto") {
                         var pos = getMousePos(el, evt);
                         // handling close note via clicking on X region
                         if (pos.x > note.width - note.xWidth
@@ -35,8 +35,11 @@ var divCallback = function (mutationList, observer) {
                     }
                     // right click on note functionality
                     // open contextmenu
-                    else if (evt.button === 2) {
+                    else if (evt.button === 2 && evt.detail == 1) {
                         openMenu(el, evt);
+                    }
+                    else if (evt.detail == 2) {
+                        console.log("double clicked!");
                     }
                 });
                 // click and drag: mouse moving

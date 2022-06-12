@@ -16,9 +16,9 @@ function checkCursor(el: Element, evt: MouseEvent) {
 
     // handling hovering over resize region
     if (pos.x > note.width - (note.rWidth - 6)
-        && pos.x < note.width + 2
+        && pos.x < note.width + 4
         && pos.y > note.height - (note.rHeight - 6)
-        && pos.y < note.height + 2) {
+        && pos.y < note.height + 4) {
         htmlE.style.cursor = "se-resize";
     }
     else {
