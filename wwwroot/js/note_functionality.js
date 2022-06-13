@@ -6,6 +6,10 @@ var dragging = false;
 var divCallback = function (mutationList, observer) {
     // click and drag: mouse up
     mutationList[0].target.addEventListener("mouseup", function () { return dragging = false; });
+    // todo: most events in here need to include manipulating the text area
+    // field associated with the parent canvas
+    // already done: dragging functionality
+    //
     // iterate through all notes and assign listeners as necessary
     document.querySelectorAll('[id^=note]').forEach(function (el) {
         // don't attach listeners if they already exist
@@ -26,20 +30,23 @@ var divCallback = function (mutationList, observer) {
                             && pos.y < note.xHeight) {
                             el.remove();
                         }
-                        var canvasPos = {
-                            x: parseInt(note.x, 10) + pos.x,
-                            y: parseInt(note.y, 10) + pos.y
-                        };
-                        dragging = true;
-                        dragPoint = { x: canvasPos.x, y: canvasPos.y };
+                        else {
+                            var canvasPos = {
+                                x: parseInt(note.x, 10) + pos.x,
+                                y: parseInt(note.y, 10) + pos.y
+                            };
+                            dragging = true;
+                            dragPoint = { x: canvasPos.x, y: canvasPos.y };
+                        }
                     }
                     // right click on note functionality
                     // open contextmenu
                     else if (evt.button === 2 && evt.detail == 1) {
                         openMenu(el, evt);
                     }
+                    // double click to edit text area
                     else if (evt.detail == 2) {
-                        console.log("double clicked!");
+                        createTextArea(el, evt);
                     }
                 });
                 // click and drag: mouse moving
@@ -68,8 +75,20 @@ function handleDragging(evt) {
         var parsedY = parseInt(note.y, 10);
         note.x = Math.floor(parsedX - (dragPoint.x - pos.x)) + "px";
         note.y = Math.floor(parsedY - (dragPoint.y - pos.y)) + "px";
+        if (parseInt(note.x) < 12)
+            note.x = "12px";
+        if (parseInt(note.y) < 12)
+            note.y = "12px";
+        if (parseInt(note.x) > 875)
+            note.x = "875px";
+        if (parseInt(note.y) > 973)
+            note.y = "973px";
         dragPoint = { x: pos.x, y: pos.y };
         this.setAttribute("note", JSON.stringify(note));
+        // support dragging functionality
+        if (document.querySelectorAll('[class^=' + this.id + ']').length > 1) {
+            moveText(this.id, note.x, note.y);
+        }
     }
     else {
         checkCursor(this, evt);

@@ -37,7 +37,7 @@ function createCanvas(evt) {
     xPattern.width = note.xWidth;
     xPattern.height = note.xHeight;
     var grd = xCtx.createLinearGradient(0, 0, 0, xPattern.height);
-    grd.addColorStop(0.1, "#fffd82");
+    grd.addColorStop(0.1, "#eeed82");
     grd.addColorStop(0.9, "#eee");
     xCtx.fillStyle = grd;
     xCtx.fillRect(0, 0, xPattern.width, xPattern.height);
@@ -103,6 +103,7 @@ function createCanvas(evt) {
     // reposition canvas to mouse location
     el.style.left = note.x;
     el.style.top = note.y;
+    el.className = el.id;
     el.setAttribute("note", JSON.stringify(note));
     el.setAttribute("listenersAttached", 'false');
     canvas.parentNode.insertBefore(el, canvas);

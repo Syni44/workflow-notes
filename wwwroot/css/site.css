@@ -16,8 +16,14 @@ body {
     margin-bottom: 60px;
 }
 
+.pb-3 {
+    height: 1236px;
+}
+
 #d-main {
     position: relative;
+    height: auto;
+    width: auto;
 }
 
 #d-main canvas {
@@ -26,4 +32,21 @@ body {
 
 #flowCanvas {
     margin-right: 100px;
+}
+
+textarea {
+    position: absolute;
+    max-width: 100%;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    line-height: 138%;
+    background-color: transparent;
+    border-width: 0px;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+}
+
+footer {
+    min-height: 12px;
 }
