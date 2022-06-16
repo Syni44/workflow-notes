@@ -2,6 +2,9 @@
 const editTextOffsetY = 22;
 
 function createTextArea(el, evt) {
+    // using global 'note's here may result in the wrong canvas being
+    // referenced!
+
     var editText = document.createElement("textarea");
     editText.id = el.id + "Text";
     editText.className = el.className;
@@ -15,6 +18,14 @@ function createTextArea(el, evt) {
     editText.style.left = parseInt((el as HTMLElement).style.left) + editTextOffsetX + "px";
     editText.style.top = parseInt((el as HTMLElement).style.top) + editTextOffsetY + "px";
 
+    editText.addEventListener("keydown", (e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+
+            el.animate(errorShakeAnim, errorShakeTiming);
+            editText.animate(errorShakeAnim, errorShakeTiming);
+        }
+    });
     el.parentElement.insertBefore(editText, el);
     editText.focus();
 }
@@ -22,6 +33,8 @@ function createTextArea(el, evt) {
 function moveText(name, x: string, y: string) {
     var eText = document.getElementById(name + "Text");
 
+    // pointerEvents style to allow interacting with canvas behind
+    eText.style.pointerEvents = "none";
     eText.style.left = parseInt(x) + editTextOffsetX + "px";
     eText.style.top = parseInt(y) + editTextOffsetY + "px";
 }

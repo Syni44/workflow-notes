@@ -22,4 +22,14 @@ function checkCursor(el, evt) {
         htmlE.style.cursor = "auto";
     }
 }
+var errorShakeAnim = [
+    { transform: 'translateX(-5px)' },
+    { transform: 'translateX(10px)' },
+    { transform: 'translateX(-10px)' },
+    { transform: 'translateX(5px)' }
+];
+var errorShakeTiming = {
+    duration: 160,
+    iterations: 1,
+};
 //# sourceMappingURL=global.js.map

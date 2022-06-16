@@ -46,6 +46,7 @@ var divCallback = function (mutationList, observer) {
                     }
                     // double click to edit text area
                     else if (evt.detail == 2) {
+                        // todo: check if one already exists first!
                         createTextArea(el, evt);
                     }
                 });

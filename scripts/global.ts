@@ -25,3 +25,15 @@ function checkCursor(el: Element, evt: MouseEvent) {
         htmlE.style.cursor = "auto";
     }
 }
+
+const errorShakeAnim = [
+    { transform: 'translateX(-5px)' },
+    { transform: 'translateX(10px)' },
+    { transform: 'translateX(-10px)' },
+    { transform: 'translateX(5px)' }
+];
+
+const errorShakeTiming = {
+    duration: 160,
+    iterations: 1,
+};
