@@ -1,4 +1,8 @@
 ﻿function openMenu(element: Element, evt: MouseEvent) {
+    // todo: we need to getAttribute on textAreaExists to determine what, exactly,
+    // the Edit option does. if false, it should create new, if true, it should
+    // allow editing the existing text.
+
     var pos = getMousePos(element, evt);
     const cMenu: HTMLCanvasElement = document.createElement("canvas");
     var ctx = cMenu.getContext("2d");
@@ -42,6 +46,23 @@
         ctx.fillStyle = "#eee";
         ctx.fillText('Edit', 10, 32);
         ctx.fillText('Add Link', 10, 74);
+    });
+    cMenu.addEventListener("mousedown", (e) => {
+        pos = getMousePos(cMenu, e);
+
+        if (pos.y <= (cMenu.height / 2)) {
+            closeMenu(cMenu);
+
+            if (element.getAttribute("textAreaExists") == 'false') {
+                createTextArea(element, e);
+            }
+            else {
+                // todo: edit existing text area
+            }
+        }
+        else {
+            // create new link dialog
+        }
     });
 
     // reference for mouseover highlighting

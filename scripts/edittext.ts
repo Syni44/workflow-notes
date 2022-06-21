@@ -26,8 +26,12 @@ function createTextArea(el, evt) {
             editText.animate(errorShakeAnim, errorShakeTiming);
         }
     });
+
+    // todo: event listener for checking when text has been edited?
+
     el.parentElement.insertBefore(editText, el);
     editText.focus();
+    el.setAttribute("textAreaExists", 'true');
 }
 
 function moveText(name, x: string, y: string) {

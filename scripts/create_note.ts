@@ -133,6 +133,7 @@ function createCanvas(evt) {
     el.className = el.id;
     el.setAttribute("note", JSON.stringify(note));
     el.setAttribute("listenersAttached", 'false');
+    el.setAttribute("textAreaExists", 'false');
     canvas.parentNode.insertBefore(el, canvas);
     return { note, el };
 }
