@@ -33,6 +33,11 @@ const divCallback = function (mutationList, observer) {
                         if (pos.x > note.width - note.xWidth
                             && pos.x < note.width
                             && pos.y < note.xHeight) {
+                            if (el.getAttribute("textAreaExists") == "true") {
+                                var eText = document.getElementById(el.id + "Text");
+                                eText.remove();
+                            }
+
                             el.remove();
                         }
                         else {
@@ -56,7 +61,8 @@ const divCallback = function (mutationList, observer) {
                             createTextArea(el, evt);
                         }
                         else {
-                            // todo: edit existing text area
+                            var eText = document.getElementById(el.id + "Text");
+                            eText.style.pointerEvents = "auto";
                         }
                     }
                 });

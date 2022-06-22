@@ -57,7 +57,8 @@
                 createTextArea(element, e);
             }
             else {
-                // todo: edit existing text area
+                var eText = document.getElementById(element.id + "Text");
+                eText.style.pointerEvents = "auto";
             }
         }
         else {
