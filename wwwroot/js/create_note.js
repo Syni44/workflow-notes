@@ -10,14 +10,22 @@ canvas.addEventListener("contextmenu", function (evt) {
     }
     return false;
 }, false);
-function createCanvas(evt) {
+function createCanvas(evt, w, h, posRX, posRY) {
+    if (w === void 0) { w = 316; }
+    if (h === void 0) { h = 218; }
+    if (posRX === void 0) { posRX = null; }
+    if (posRY === void 0) { posRY = null; }
     var pos = getMousePos(canvas, evt);
     var note = {
-        x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: 316, height: 218, lineHeight: 22,
+        x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: w, height: h, lineHeight: 22,
         xWidth: 30, xHeight: 30, xMargins: 6,
         rWidth: 28, rHeight: 28, rMargins: 4,
         shadowRoomX: 16, shadowRoomY: 16, shadowOffsetX: 9, shadowOffsetY: 7
     };
+    if (posRX != null && posRY != null) {
+        note.x = posRX;
+        note.y = posRY;
+    }
     // "index card" line pattern
     var pattern = document.createElement("canvas");
     var patternCtx = pattern.getContext("2d");

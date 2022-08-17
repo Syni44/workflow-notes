@@ -15,14 +15,19 @@ canvas.addEventListener("contextmenu", function (evt) {
     return false;
 }, false);
 
-function createCanvas(evt) {
+function createCanvas(evt, w = 316, h = 218, posRX = null, posRY = null) {
     var pos = getMousePos(canvas, evt);
     var note: Note = {
-        x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: 316, height: 218, lineHeight: 22,
+        x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: w, height: h, lineHeight: 22,
         xWidth: 30, xHeight: 30, xMargins: 6,
         rWidth: 28, rHeight: 28, rMargins: 4,
         shadowRoomX: 16, shadowRoomY: 16, shadowOffsetX: 9, shadowOffsetY: 7
     };
+
+    if (posRX != null && posRY != null) {
+        note.x = posRX;
+        note.y = posRY;
+    }
 
     // "index card" line pattern
     const pattern: HTMLCanvasElement = document.createElement("canvas");

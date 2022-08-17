@@ -25,7 +25,7 @@ var divCallback = function (mutationList, observer) {
                     insertAfter(el, allChildNodes[allChildNodes.length - 1]);
                     // left click on note functionality
                     // drag and drop, close note, resize note
-                    if (evt.button === 0 && evt.detail == 1) { // && (el as HTMLElement).style.cursor == "auto" ((why was this here?))
+                    if (evt.button === 0 && evt.detail == 1) {
                         var pos = getMousePos(el, evt);
                         // handling close note via clicking on X region
                         if (pos.x > note.width - note.xWidth
@@ -43,12 +43,12 @@ var divCallback = function (mutationList, observer) {
                             && pos.y > note.height - (note.rHeight - 6)
                             && pos.y < note.height + 4) {
                             // todo: something's broken here or in handledragging function
-                            //var canvasPos = {
-                            //    x: parseInt(note.x, 10) + pos.x,
-                            //    y: parseInt(note.y, 10) + pos.y
-                            //};
+                            var canvasPos = {
+                                x: parseInt(note.x, 10) + pos.x,
+                                y: parseInt(note.y, 10) + pos.y
+                            };
                             resizing = true;
-                            resizePoint = { x: pos.x, y: pos.y };
+                            resizePoint = { x: canvasPos.x, y: canvasPos.y };
                         }
                         else {
                             var canvasPos = {
@@ -111,7 +111,7 @@ function handleDragging(evt) {
             note.y = "973px";
         dragPoint = { x: pos.x, y: pos.y };
         this.setAttribute("note", JSON.stringify(note));
-        // support dragging functionality
+        // dragging the text field along with canvas
         if (document.querySelectorAll('[class^=' + this.id + ']').length > 1) {
             moveText(this.id, note.x, note.y);
         }
@@ -129,6 +129,10 @@ function handleDragging(evt) {
         if (note.height > 388)
             note.height = 388;
         resizePoint = { x: pos.x, y: pos.y };
+        //this.width = note.width;
+        //this.height = note.height;
+        this.remove();
+        createCanvas(evt, note.width, note.height, note.x, note.y);
         this.setAttribute("note", JSON.stringify(note));
         // todo: implement text field manipulating functionality here
     }
