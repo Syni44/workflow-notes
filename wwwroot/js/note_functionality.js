@@ -105,10 +105,10 @@ function handleDragging(evt) {
             note.x = "12px";
         if (parseInt(note.y) < 12)
             note.y = "12px";
-        if (parseInt(note.x) > 875)
-            note.x = "875px";
-        if (parseInt(note.y) > 973)
-            note.y = "973px";
+        if (parseInt(note.x) > 1200 - note.width - 12)
+            note.x = Math.floor(1200 - note.width - 12) + "px"; //875
+        if (parseInt(note.y) > 1200 - note.height - 12)
+            note.y = Math.floor(1200 - note.height - 12) + "px"; //973
         dragPoint = { x: pos.x, y: pos.y };
         this.setAttribute("note", JSON.stringify(note));
         // dragging the text field along with canvas

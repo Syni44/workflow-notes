@@ -20,6 +20,10 @@ body {
     height: 1236px;
 }
 
+#notes-test-copyright {
+    font-size: 12px;
+}
+
 #d-main {
     position: relative;
     height: auto;
