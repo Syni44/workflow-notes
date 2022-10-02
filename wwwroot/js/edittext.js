@@ -23,7 +23,7 @@ function createTextArea(el, evt) {
         }
     });
     // todo: event listener for checking when text has been edited?
-    el.parentElement.insertBefore(editText, el);
+    insertAfter(editText, el);
     editText.focus();
     el.setAttribute("textAreaExists", 'true');
 }
@@ -33,5 +33,11 @@ function moveText(name, x, y) {
     eText.style.pointerEvents = "none";
     eText.style.left = parseInt(x) + editTextOffsetX + "px";
     eText.style.top = parseInt(y) + editTextOffsetY + "px";
+}
+function resizeText(name, w, h) {
+    var eText = document.getElementById(name + "Text");
+    eText.style.pointerEvents = "none";
+    eText.style.width = w;
+    eText.style.height = h;
 }
 //# sourceMappingURL=edittext.js.map

@@ -1,8 +1,4 @@
 ﻿function openMenu(element: Element, evt: MouseEvent) {
-    // todo: we need to getAttribute on textAreaExists to determine what, exactly,
-    // the Edit option does. if false, it should create new, if true, it should
-    // allow editing the existing text.
-
     var pos = getMousePos(element, evt);
     const cMenu: HTMLCanvasElement = document.createElement("canvas");
     var ctx = cMenu.getContext("2d");

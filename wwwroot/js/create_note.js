@@ -15,6 +15,7 @@ function createCanvas(evt, w, h, posRX, posRY) {
     if (h === void 0) { h = 218; }
     if (posRX === void 0) { posRX = null; }
     if (posRY === void 0) { posRY = null; }
+    var textAreaFlag = false;
     var pos = getMousePos(canvas, evt);
     var note = {
         x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: w, height: h, lineHeight: 22,
@@ -78,8 +79,9 @@ function createCanvas(evt, w, h, posRX, posRY) {
     var elCtx = el.getContext("2d");
     var compositeOperation = elCtx.globalCompositeOperation;
     var noteNum = parentDiv.childElementCount;
-    while (document.querySelectorAll('[id^=note' + noteNum + ']').length > 0) {
+    while (document.querySelectorAll('[id^=note' + (noteNum - 1) + ']').length > 0) {
         noteNum -= 1;
+        textAreaFlag = true;
     }
     el.style.zIndex = "2";
     el.style.cursor = "auto";
@@ -114,7 +116,7 @@ function createCanvas(evt, w, h, posRX, posRY) {
     el.className = el.id;
     el.setAttribute("note", JSON.stringify(note));
     el.setAttribute("listenersAttached", 'false');
-    el.setAttribute("textAreaExists", 'false');
+    el.setAttribute("textAreaExists", textAreaFlag.toString());
     canvas.parentNode.insertBefore(el, canvas);
     return { note: note, el: el };
 }

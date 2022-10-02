@@ -16,6 +16,8 @@ canvas.addEventListener("contextmenu", function (evt) {
 }, false);
 
 function createCanvas(evt, w = 316, h = 218, posRX = null, posRY = null) {
+    var textAreaFlag = false;
+
     var pos = getMousePos(canvas, evt);
     var note: Note = {
         x: Math.floor(pos.x) + "px", y: Math.floor(pos.y) + "px", width: w, height: h, lineHeight: 22,
@@ -92,8 +94,9 @@ function createCanvas(evt, w = 316, h = 218, posRX = null, posRY = null) {
     var compositeOperation = elCtx.globalCompositeOperation;
 
     var noteNum = parentDiv.childElementCount;
-    while (document.querySelectorAll('[id^=note' + noteNum + ']').length > 0) {
+    while (document.querySelectorAll('[id^=note' + (noteNum - 1) + ']').length > 0) {
         noteNum -= 1;
+        textAreaFlag = true;
     }
 
     el.style.zIndex = "2";
@@ -138,7 +141,7 @@ function createCanvas(evt, w = 316, h = 218, posRX = null, posRY = null) {
     el.className = el.id;
     el.setAttribute("note", JSON.stringify(note));
     el.setAttribute("listenersAttached", 'false');
-    el.setAttribute("textAreaExists", 'false');
+    el.setAttribute("textAreaExists", textAreaFlag.toString());
     canvas.parentNode.insertBefore(el, canvas);
     return { note, el };
 }

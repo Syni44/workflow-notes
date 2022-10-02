@@ -11,10 +11,6 @@ const divCallback = function (mutationList, observer) {
     mutationList[0].target.addEventListener("mouseup", () => dragging = false);
     mutationList[0].target.addEventListener("mouseup", () => resizing = false);
 
-    // todo: most events in here need to include manipulating the text area
-    // field associated with the parent canvas
-    // already done: dragging functionality
-    //
     // iterate through all notes and assign listeners as necessary
     document.querySelectorAll('[id^=note]').forEach((el) => {
         // don't attach listeners if they already exist
@@ -26,6 +22,16 @@ const divCallback = function (mutationList, observer) {
                 el.addEventListener("mousedown", (evt: MouseEvent) => {
                     var allChildNodes = document.querySelectorAll('[id^=note]');
                     insertAfter(el, allChildNodes[allChildNodes.length - 1]);
+                    if (el.getAttribute("textAreaExists") == "true") {
+                        insertAfter(document.getElementById(el.id + "Text"), el);
+                    }
+
+                    document.getElementById(el.id).style.zIndex = '3';
+                    allChildNodes.forEach(child => {
+                        if (document.getElementById(child.id) != document.getElementById(el.id + "Text")) {
+                            document.getElementById(child.id).style.zIndex = '2';
+                        }
+                    });
 
                     // left click on note functionality
                     // drag and drop, close note, resize note
@@ -123,6 +129,7 @@ function handleDragging(evt: MouseEvent) {
 
         if (parseInt(note.x) < 12) note.x = "12px";
         if (parseInt(note.y) < 12) note.y = "12px";
+        //                 canvas size           padding
         if (parseInt(note.x) > 1200 - note.width - 12) note.x = Math.floor(1200 - note.width - 12) + "px"; //875
         if (parseInt(note.y) > 1200 - note.height - 12) note.y = Math.floor(1200 - note.height - 12) + "px"; //973
 
@@ -133,6 +140,7 @@ function handleDragging(evt: MouseEvent) {
         // dragging the text field along with canvas
         if (document.querySelectorAll('[class^=' + this.id + ']').length > 1) {
             moveText(this.id, note.x, note.y);
+            insertAfter(document.getElementById(this.id + "Text"), this);
         }
     }
     else if (resizing) {
@@ -154,7 +162,10 @@ function handleDragging(evt: MouseEvent) {
         createCanvas(evt, note.width, note.height, note.x, note.y);
         this.setAttribute("note", JSON.stringify(note));
 
-        // todo: implement text field manipulating functionality here
+        if (document.querySelectorAll('[class^=' + this.id + ']').length > 1) {
+            resizeText(this.id, note.width - 4 + "px", note.height - 4 + "px");
+            insertAfter(document.getElementById(this.id + "Text"), this);
+        }
 
     }
     else {
