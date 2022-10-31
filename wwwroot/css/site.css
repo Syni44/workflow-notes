@@ -10,14 +10,25 @@ html {
 
 html {
     position: relative;
+
+    display: flex;
 }
 
 body {
     margin-bottom: 60px;
+    width: 100%;
 }
 
 .pb-3 {
     height: 1236px;
+}
+
+#desc {
+    font-family: 'Gentium Book Basic';
+    width: 1200px;
+    text-align: center;
+    margin-bottom: 16px;
+    background-color: #eeed82;
 }
 
 #notes-test-copyright {

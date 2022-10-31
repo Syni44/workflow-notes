@@ -142,8 +142,10 @@ function handleDragging(evt) {
         createCanvas(evt, note.width, note.height, note.x, note.y);
         this.setAttribute("note", JSON.stringify(note));
         if (document.querySelectorAll('[class^=' + this.id + ']').length > 1) {
-            resizeText(this.id, note.width - 4 + "px", note.height - 4 + "px");
-            insertAfter(document.getElementById(this.id + "Text"), this);
+            if (document.getElementById(this.id + "Text") != null) {
+                resizeText(this.id, note.width - 4 + "px", note.height - 4 + "px");
+                insertAfter(document.getElementById(this.id + "Text"), this);
+            }
         }
     }
     else {

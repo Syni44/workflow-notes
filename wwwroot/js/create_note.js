@@ -116,6 +116,9 @@ function createCanvas(evt, w, h, posRX, posRY) {
     el.className = el.id;
     el.setAttribute("note", JSON.stringify(note));
     el.setAttribute("listenersAttached", 'false');
+    // todo: errors are being thrown in a new window when a second note is created before
+    // the first note has a text area created -- textAreaExists evaluates true when it
+    // shouldn't
     el.setAttribute("textAreaExists", textAreaFlag.toString());
     canvas.parentNode.insertBefore(el, canvas);
     return { note: note, el: el };
